@@ -33,19 +33,19 @@ class DatabaseSeeder extends Seeder
         
         #data kategori
         kategori::create([
-            'nama_kategori' => 'MLBB'
+            'nama_kategori' => 'Brownies',
         ]);
         kategori::create([
-            'nama_kategori' => 'PUBG'
+            'nama_kategori' => 'Combro',
         ]);
         kategori::create([
-            'nama_kategori' => 'COC'
+            'nama_kategori' => 'Dawet',
         ]);
         kategori::create([
-            'nama_kategori' => 'FREE FIRE'
+            'nama_kategori' => 'Mochi',
         ]);
         kategori::create([
-            'nama_kategori' => 'COD'
+            'nama_kategori' => 'Wingko',
         ]);
     }
 }

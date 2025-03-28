@@ -11,9 +11,9 @@ use App\Helpers\ImageHelper;
 class ProdukController extends Controller
 {
     /**
-    * Display a listing of the resource.
-    */
-public function index()
+     * Display a listing of the resource.
+     */
+    public function index()
     {
         $produk = Produk::orderBy('updated_at', 'desc')->get();
         return view('backend.v_produk.index', [
@@ -22,10 +22,9 @@ public function index()
         ]);
     }
 
-
     /**
-    * Show the form for creating a new resource.
-    */
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $kategori = Kategori::orderBy('nama_kategori', 'asc')->get();
@@ -35,10 +34,9 @@ public function index()
         ]);
     }
 
-
     /**
-    * Store a newly created resource in storage.
-    */
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -86,10 +84,9 @@ public function index()
         return redirect()->route('backend.produk.index')->with('success', 'Data berhasil tersimpan');
     }
 
-
     /**
-    * Display the specified resource.
-    */
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $produk = Produk::with('fotoProduk')->findOrFail($id);
@@ -101,10 +98,9 @@ public function index()
         ]);
     }
 
-
     /**
-    * Show the form for editing the specified resource.
-    */
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id)
     {
         $produk = Produk::findOrFail($id);
@@ -116,10 +112,9 @@ public function index()
         ]);
     }
 
-
     /**
-    * Update the specified resource in storage.
-    */
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         //ddd($request);
@@ -148,17 +143,20 @@ public function index()
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
-                $oldThumbnailLg = public_path('storage/img-produk/') . 'thumb_lg_' . $produk->foto;
-                    if (file_exists($oldThumbnailLg)) {
-                        unlink($oldThumbnailLg);
+                $oldThumbnailLg = public_path('storage/img-produk/') . 'thumb_lg_' .
+                    $produk->foto;
+                if (file_exists($oldThumbnailLg)) {
+                    unlink($oldThumbnailLg);
                 }
-                $oldThumbnailMd = public_path('storage/img-produk/') . 'thumb_md_' . $produk->foto;
-                    if (file_exists($oldThumbnailMd)) {
-                        unlink($oldThumbnailMd);
+                $oldThumbnailMd = public_path('storage/img-produk/') . 'thumb_md_' .
+                    $produk->foto;
+                if (file_exists($oldThumbnailMd)) {
+                    unlink($oldThumbnailMd);
                 }
-                $oldThumbnailSm = public_path('storage/img-produk/') . 'thumb_sm_' . $produk->foto;
-                    if (file_exists($oldThumbnailSm)) {
-                        unlink($oldThumbnailSm);
+                $oldThumbnailSm = public_path('storage/img-produk/') . 'thumb_sm_' .
+                    $produk->foto;
+                if (file_exists($oldThumbnailSm)) {
+                    unlink($oldThumbnailSm);
                 }
             }
             $file = $request->file('foto');
@@ -185,15 +183,15 @@ public function index()
             // Simpan nama file asli di database
             $validatedData['foto'] = $originalFileName;
         }
+
         $produk->update($validatedData);
         return redirect()->route('backend.produk.index')->with('success', 'Data berhasil diperbaharui');
-        }
-
+    }
 
     /**
-    * Remove the specified resource from storage.
-    */
-    public function destroy($id)
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
         $produk = Produk::findOrFail($id);
         $directory = public_path('storage/img-produk/');
@@ -223,6 +221,7 @@ public function index()
                 unlink($thumbnailSm);
             }
         }
+
         // Hapus foto produk lainnya di tabel foto_produk
         $fotoProduks = FotoProduk::where('produk_id', $id)->get();
         foreach ($fotoProduks as $fotoProduk) {
@@ -232,12 +231,9 @@ public function index()
             }
             $fotoProduk->delete();
         }
-
         $produk->delete();
-
         return redirect()->route('backend.produk.index')->with('success', 'Data berhasil dihapus');
     }
-
 
     // Method untuk menyimpan foto tambahan
     public function storeFoto(Request $request)
@@ -254,7 +250,6 @@ public function index()
                 $extension = $file->getClientOriginalExtension();
                 $filename = date('YmdHis') . '_' . uniqid() . '.' . $extension;
                 $directory = 'storage/img-produk/';
-
                 // Simpan dan resize gambar menggunakan ImageHelper
                 ImageHelper::uploadAndResize($file, $directory, $filename, 800, null);
                 // Simpan data ke database
@@ -267,7 +262,6 @@ public function index()
         return redirect()->route('backend.produk.show', $request->produk_id)
             ->with('success', 'Foto berhasil ditambahkan.');
     }
-
 
     // Method untuk menghapus foto
     public function destroyFoto($id)
@@ -287,8 +281,6 @@ public function index()
             ->with('success', 'Foto berhasil dihapus.');
     }
 
-
-    // Method untuk Form Laporan Produk
     public function formProduk()
     {
         return view('backend.v_produk.form', [
@@ -296,8 +288,6 @@ public function index()
         ]);
     }
 
-
-    // Method untuk Cetak Laporan Produk
     public function cetakProduk(Request $request)
     {
         // Menambahkan aturan validasi
@@ -322,6 +312,41 @@ public function index()
             'tanggalAwal' => $tanggalAwal,
             'tanggalAkhir' => $tanggalAkhir,
             'cetak' => $produk
+        ]);
+    }
+
+    public function detail($id)
+    {
+        $fotoProdukTambahan = FotoProduk::where('produk_id', $id)->get();
+        $detail = Produk::findOrFail($id);
+        $kategori = Kategori::orderBy('nama_kategori', 'desc')->get();
+        return view('v_produk.detail', [
+            'judul' => 'Detail Produk',
+            'kategori' => $kategori,
+            'row' => $detail,
+            'fotoProdukTambahan' => $fotoProdukTambahan
+        ]);
+    }
+
+    public function produkKategori($id)
+    {
+        $kategori = Kategori::orderBy('nama_kategori', 'desc')->get();
+        $produk = Produk::where('kategori_id', $id)->where('status', 1)->orderBy('updated_at', 'desc')->paginate(6);
+        return view('v_produk.produkkategori', [
+            'judul' => 'Filter Kategori',
+            'kategori' => $kategori,
+            'produk' => $produk,
+        ]);
+    }
+
+    public function produkAll()
+    {
+        $kategori = Kategori::orderBy('nama_kategori', 'desc')->get();
+        $produk = Produk::where('status', 1)->orderBy('updated_at', 'desc')->paginate(6);
+        return view('v_produk.index', [
+            'judul' => 'Semua Produk',
+            'kategori' => $kategori,
+            'produk' => $produk,
         ]);
     }
 }

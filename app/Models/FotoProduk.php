@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class FotoProduk extends Model
 {
-	public $timestamps = true;
-	protected $table = "produk";
-	protected $guarded = ['id'];
+    public $timestamps = true;
+    protected $table = 'foto_produk';
+    protected $guarded = ['id'];
+    use HasFactory;
 }
