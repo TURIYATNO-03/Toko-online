@@ -53,14 +53,14 @@
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{ asset('image\image\icon_univ_bsi.png') }}" alt="homepage" class="light-logo" />
+                            <img src="{{ asset('image/icon_univ_bsi.png') }}" alt="homepage" class="light-logo" />
                            
                         </b>
                         <!--End Logo icon -->
                          <!-- Logo text -->
                         <span class="logo-text">
                              <!-- dark Logo text -->
-                             <img src="{{ asset('image\image\logo_text.png') }}" alt="homepage" class="light-logo" />
+                             <img src="{{ asset('image/logo_text.png') }}" alt="homepage" class="light-logo" />
                             
                         </span>
                         <!-- Logo icon -->
@@ -160,6 +160,9 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('backend.user.index') }}" aria-expanded="false">
                             <i class="mdi mdi-account"></i><span class="hide-menu">User</span></a>
                         </li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('backend.customer.index') }}" aria-expanded="false">
+                            <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Customer</span></a>
+                        </li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waveseffect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="mdi mdi-shopping"></i><span class="hide-menu">Data Produk </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
@@ -171,10 +174,15 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waveseffect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdireceipt"></i><span class="hide-menu">Laporan </span></a>
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                            <i class="mdi mdi-receipt"></i><span class="hide-menu">Laporan </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
-                                <li class="sidebar-item"><a href="{{ route('backend.laporan.formuser') }}" class="sidebar-link"><i class="mdi mdi-chevronright"></i><span class="hide-menu"> User </span></a></li>
-                                <li class="sidebar-item"><a href="{{ route('backend.laporan.formproduk') }}" class="sidebar-link"><i class="mdi mdi-chevronright"></i><span class="hide-menu"> Produk </span></a></li>
+                                <li class="sidebar-item"><a href="{{ route('backend.laporan.formuser') }}" class="sidebar-link">
+                                    <i class="mdi mdi-chevron-right"></i><span class="hide-menu"> User </span></a>
+                                </li>
+                                <li class="sidebar-item"><a href="{{ route('backend.laporan.formproduk') }}" class="sidebar-link">
+                                    <i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Produk </span></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -319,7 +327,7 @@
             fotoPreview.style.display = 'block';
             const fotoReader = new FileReader();
             fotoReader.readAsDataURL(foto.files[0]);
-            fotoReader.onload = function(fotoEvent) {                    
+            fotoReader.onload = function(fotoEvent) {
                 fotoPreview.src = fotoEvent.target.result;
                 fotoPreview.style.width = '100%';
             }
